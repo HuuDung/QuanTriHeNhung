@@ -1,4 +1,3 @@
-    
 #include <Arduino.h>
 
 #include <WMHead.h>
@@ -9,7 +8,8 @@
 #define MIN_DISTANCE_RANGE_MIN 9      // Khoảng cách nhỏ nhất để xe bắt đầu đi lùi lại
 #define MIN_DISTANCE_RANGE_MAX 11     // Khoảng cách nhỏ nhất để xe bắt đầu đi tiến lên
 #define MAX_DETECTABLE_DISTANCE 50    // Khoảng cách lớn nhất mà xe có thể nhận diện vật thể
-
+#define TRIG 3
+#define ECHO 4
 WMDCMotor motor1(8);                  // Bánh xe 1
 WMDCMotor motor2(7);                  // Bánh xe 2
 
