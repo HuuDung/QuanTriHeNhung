@@ -8,7 +8,7 @@
 #define DISTANCE_ARR_LEN 5            // Chuỗi khoảng cách thu vào để khử nhiễu
 #define STABLE_DISTANCE_MAX_DIFF 50   // Độ khác biệt lớn nhất cho phép giữa các giá trị khoảng cách để được coi là chuỗi ổn định
 #define MIN_DISTANCE_RANGE_MIN 9      // Khoảng cách nhỏ nhất để xe bắt đầu đi lùi lại
-#define MIN_DISTANCE_RANGE_MAX 11     // Khoảng cách nhỏ nhất để xe bắt đầu đi tiến lên
+#define MIN_DISTANCE_RANGE_MAX 13     // Khoảng cách nhỏ nhất để xe bắt đầu đi tiến lên
 #define MAX_DETECTABLE_DISTANCE 50    // Khoảng cách lớn nhất mà xe có thể nhận diện vật thể
 #define TURN_ANGLE 45                 // Góc quay xe để tìm kiếm vật khi mất dấu
  
@@ -28,12 +28,12 @@ void loop()
 {
   unsigned long distance = measureDistance();     // Đo khoảng cách tới vật phía trước
  
-  if (distance > MIN_DISTANCE_RANGE_MIN && distance < MIN_DISTANCE_RANGE_MAX) {   // Nếu vật cách 1 khoảng vừa phải
+  if (distance > MIN_DISTANCE_RANGE_MIN && distance < MIN_DISTANCE_RANGE_MAX | distance == MIN_DISTANCE_RANGE_MIN | distance == MIN_DISTANCE_RANGE_MAX) {   // Nếu vật cách 1 khoảng vừa phải [9;13]
     stopMoving();
-  } else if (distance < MIN_DISTANCE_RANGE_MIN) {                                 // Nếu vật quá gần
-    moveBackward(30);
-  } else if (distance > MIN_DISTANCE_RANGE_MAX && distance < MAX_DETECTABLE_DISTANCE) {   // Nếu vật trong khoảng nhìn thấy nhưng cách quá xa
-    moveForward(30);
+  } else if (distance < MIN_DISTANCE_RANGE_MIN) {                                 // Nếu vật quá gần <9 
+    moveBackward(20);
+  } else if (distance > MIN_DISTANCE_RANGE_MAX && distance < MAX_DETECTABLE_DISTANCE| distance == MAX_DETECTABLE_DISTANCE) {   // Nếu vật trong khoảng nhìn thấy nhưng cách quá xa (13;50]
+    moveForward(20);
     doDetectObject = 1;
   } else if (distance > MAX_DETECTABLE_DISTANCE) {                                // Nếu không tìm thấy vật
     if(!detectObject()) {           // Thử tìm vật
@@ -56,7 +56,7 @@ unsigned long measureDistance() {
     digitalWrite(TRIG, LOW);   // tắt chân trig
     delayMicroseconds(2);
     digitalWrite(TRIG, HIGH);   // phát xung từ chân trig
-    delayMicroseconds(10);   // xung có độ dài 5 microSeconds
+    delayMicroseconds(10);   // xung có độ dài 5  microSeconds
     digitalWrite(TRIG, LOW);   // tắt chân trig
  
     /* Tính toán thời gian */
@@ -107,8 +107,6 @@ void moveBackward(int speed) {
   motor2.reverseRun(-speed);
 }
  
- 
- 
 // Xoay xe +-TURN_ANGLE độ để tìm kiếm vật
 boolean detectObject() {  
   if(!doDetectObject) return 0;
@@ -126,7 +124,7 @@ boolean detectObject() {
     turnRight(TURN_ANGLE / 3, 20);
     if(measureDistance() < MAX_DETECTABLE_DISTANCE) return 1;
   }
- 
+ turnLeft(TURN_ANGLE, 20);
   return 0;
 }
  
