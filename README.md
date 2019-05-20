@@ -4,12 +4,3 @@ Thanh vien:
 	2. Doan Van Son
 	3. Trinh Huu Vu
 	4. Pham Dinh Tuan Anh
-	5.
-	6.
-.
-7.
-8.
-9.
-10.
-11.
-12.
